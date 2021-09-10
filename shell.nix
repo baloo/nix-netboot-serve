@@ -8,5 +8,8 @@ pkgs.mkShell {
         pkgs.file
         pkgs.entr
         pkgs.binwalk
+        pkgs.foreman
+        pkgs.slirp4netns
+        pkgs.nftables
     ];
 }

@@ -1,7 +1,3 @@
-
-
-#url=http://127.0.0.1:3030/boot/0m60ngchp6ki34jpwmpbdx3fby6ya0sf-nixos-system-nginx-21.11pre307912.fe01052444c/netboot.ipxe
-#url=http://127.0.0.1:3030/dispatch/profile/amazon-image
 url=http://127.0.0.1:3030/dispatch/configuration/m1.small
 
 qemu-kvm \
@@ -9,7 +5,13 @@ qemu-kvm \
   -m 16G \
   -cpu max \
   -serial mon:stdio \
-  -net user,bootfile="$url" \
-  -net nic \
+  \
+  -netdev tap,id=nd1,script="./boot/helper.sh" \
+  -device virtio-net-pci,netdev=nd1 \
+  \
   -msg timestamp=on \
+  \
+  -mon chardev=con0,mode=readline \
+  -chardev socket,id=con0,path=./console.pipe,server,nowait \
+  \
   -nographic
